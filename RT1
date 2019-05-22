@@ -1,0 +1,500 @@
+A:RT1# admin display-config 
+
+# TiMOS-B-12.0.R6 both/i386 ALCATEL SR 7750 Copyright (c) 2000-2014 Alcatel-Lucent.
+
+
+# All rights reserved. All use subject to applicable license agreements.
+
+
+# Built on Tue Sep 30 11:10:17 PDT 2014 by builder in /rel12.0/b1/R6/panos/main
+
+
+
+
+# Generated WED MAY 22 15:03:28 2019 UTC
+
+
+
+exit all
+
+configure
+
+#--------------------------------------------------
+
+echo "System Configuration"
+
+#--------------------------------------------------
+
+    system
+
+        name "RT1"
+
+        dns
+
+        exit
+
+        snmp
+
+        exit
+
+        time
+
+            sntp
+
+                shutdown
+
+            exit
+
+            zone UTC 
+
+Press any key to continue (Q to quit)
+                                      
+        exit
+
+        thresholds
+
+            rmon
+
+            exit
+
+        exit
+
+    exit
+
+#--------------------------------------------------
+
+echo "System Security Configuration"
+
+#--------------------------------------------------
+
+    system
+
+        security
+
+            no per-peer-queuing
+
+            cpu-protection
+
+                link-specific-rate max
+
+                policy 254 create
+
+                exit
+
+                policy 255 create
+
+                exit
+
+                port-overall-rate 15000 
+
+            exit
+
+        exit
+
+    exit
+
+#--------------------------------------------------
+
+Press any key to continue (Q to quit)
+                                      
+echo "Log Configuration"
+
+#--------------------------------------------------
+
+    log 
+
+    exit 
+
+#--------------------------------------------------
+
+echo "System Security Cpm Hw Filters and PKI Configuration"
+
+#--------------------------------------------------
+
+    system
+
+        security
+
+        exit
+
+    exit
+
+#--------------------------------------------------
+
+echo "QoS Policy Configuration"
+
+#--------------------------------------------------
+
+    qos
+
+    exit
+
+#--------------------------------------------------
+
+echo "Card Configuration"
+
+#--------------------------------------------------
+
+    card 1
+
+        card-type iom3-xp-b
+
+        mda 1
+
+            mda-type m5-1gb-sfp-b
+
+Press any key to continue (Q to quit)
+                                      
+            no shutdown
+
+        exit
+
+        no shutdown
+
+    exit
+
+#--------------------------------------------------
+
+echo "Port Configuration"
+
+#--------------------------------------------------
+
+    port 1/1/1
+
+        ethernet
+
+            mtu 9212
+
+        exit
+
+        no shutdown
+
+    exit
+
+    port 1/1/2
+
+        shutdown
+
+        ethernet
+
+        exit
+
+    exit
+
+    port 1/1/3
+
+        shutdown
+
+        ethernet
+
+        exit
+
+    exit
+
+Press any key to continue (Q to quit)
+                                      
+    port 1/1/4
+
+        shutdown
+
+        ethernet
+
+        exit
+
+    exit
+
+    port 1/1/5
+
+        ethernet
+
+            mode access
+
+        exit
+
+        no shutdown
+
+    exit
+
+#--------------------------------------------------
+
+echo "System Sync-If-Timing Configuration"
+
+#--------------------------------------------------
+
+    system
+
+        sync-if-timing
+
+            begin
+
+            commit
+
+        exit
+
+    exit
+
+#--------------------------------------------------
+
+echo "Management Router Configuration"
+
+#--------------------------------------------------
+
+Press any key to continue (Q to quit)
+                                      
+    router management
+
+    exit
+
+
+
+#--------------------------------------------------
+
+echo "Router (Network Side) Configuration"
+
+#--------------------------------------------------
+
+    router 
+
+        interface "RT1_RT2"
+
+            address 1.1.1.1/24
+
+            port 1/1/1
+
+            no shutdown
+
+        exit
+
+        interface "system"
+
+            address 11.11.11.11/32
+
+            no shutdown
+
+        exit
+
+#--------------------------------------------------
+
+echo "OSPFv2 Configuration"
+
+#--------------------------------------------------
+
+        ospf
+
+            area 0.0.0.0
+
+                interface "system"
+
+                    no shutdown
+
+Press any key to continue (Q to quit)
+                                      
+                exit
+
+                interface "RT1_RT2"
+
+                    no shutdown
+
+                exit
+
+            exit
+
+        exit
+
+#--------------------------------------------------
+
+echo "LDP Configuration"
+
+#--------------------------------------------------
+
+        ldp
+
+            interface-parameters
+
+                interface "RT1_RT2"
+
+                exit
+
+            exit
+
+            targeted-session
+
+            exit
+
+            no shutdown
+
+        exit
+
+#--------------------------------------------------
+
+echo "Web Portal Protocol Configuration"
+
+#--------------------------------------------------
+
+    exit
+
+
+
+Press any key to continue (Q to quit)
+                                      
+#--------------------------------------------------
+
+echo "Service Configuration"
+
+#--------------------------------------------------
+
+    service
+
+        sdp 12 mpls create
+
+            far-end 22.22.22.22
+
+            ldp
+
+            keep-alive
+
+                shutdown
+
+            exit
+
+            no shutdown
+
+        exit
+
+        customer 1 create
+
+            description "Default customer"
+
+        exit
+
+        vpls 22 customer 1 create
+
+            stp
+
+                shutdown
+
+            exit
+
+            sap 1/1/5 create
+
+            exit
+
+            mesh-sdp 12:22 create
+
+                no shutdown
+
+Press any key to continue (Q to quit)
+                                      
+            exit
+
+            no shutdown
+
+        exit
+
+    exit
+
+#--------------------------------------------------
+
+echo "Router (Service Side) Configuration"
+
+#--------------------------------------------------
+
+    router 
+
+#--------------------------------------------------
+
+echo "OSPFv2 Configuration"
+
+#--------------------------------------------------
+
+        ospf
+
+        exit
+
+#--------------------------------------------------
+
+echo "WLAN Gateway Configuration"
+
+#--------------------------------------------------
+
+    exit
+
+
+
+
+
+exit all
+
+
+
+# Finished WED MAY 22 15:03:30 2019 UTC
+
+A:RT1#                                  sho   
+
+A:RT1# show service mp  id 22 base 
+
+
+
+===============================================================================
+
+Service Basic Information
+
+===============================================================================
+
+Service Id        : 22                  Vpn Id            : 0
+
+Service Type      : VPLS                
+
+Name              : (Not Specified)
+
+Description       : (Not Specified)
+
+Customer Id       : 1                   Creation Origin   : manual
+
+Last Status Change: 05/22/2019 14:50:27 
+
+Last Mgmt Change  : 05/22/2019 14:49:04 
+
+Etree Mode        : Disabled            
+
+Admin State       : Up                  Oper State        : Up
+
+MTU               : 1514                Def. Mesh VC Id   : 22
+
+SAP Count         : 1                   SDP Bind Count    : 1
+
+Snd Flush on Fail : Disabled            Host Conn Verify  : Disabled
+
+Propagate MacFlush: Disabled            Per Svc Hashing   : Disabled
+
+Allow IP Intf Bind: Disabled            
+
+Def. Gateway IP   : None                
+
+Def. Gateway MAC  : None                
+
+Temp Flood Time   : Disabled            Temp Flood        : Inactive
+
+Temp Flood Chg Cnt: 0                   
+
+Press any key to continue (Q to quit)
+                                      
+VSD Domain        : <none>
+
+ 
+
+-------------------------------------------------------------------------------
+
+Service Access & Destination Points
+
+-------------------------------------------------------------------------------
+
+Identifier                               Type         AdmMTU  OprMTU  Adm  Opr
+
+-------------------------------------------------------------------------------
+
+sap:1/1/5                                null         1514    1514    Up   Up
+
+sdp:12:22 M(22.22.22.22)                 Mesh         0       9190    Up   Up
+
+===============================================================================
